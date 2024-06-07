@@ -29,6 +29,11 @@ fn main() -> Result<(), Box<dyn Error>> {
         compile_benchmarks_dir.display()
     );
 
+    prost_build::compile_protos(
+        &[site_dir.join("perfetto/protos/perfetto/trace/trace.proto")],
+        &[site_dir.join("perfetto/")],
+    )?;
+
     let mut suite = HashMap::new();
 
     for compile_benchmark in std::fs::read_dir(compile_benchmarks_dir)? {

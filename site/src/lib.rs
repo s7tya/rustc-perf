@@ -15,6 +15,10 @@ pub mod github;
 pub mod load;
 pub mod server;
 
+pub mod trace {
+    include!(concat!(env!("OUT_DIR"), "/perfetto.protos.rs"));
+}
+
 mod average;
 mod benchmark_metadata;
 mod comparison;

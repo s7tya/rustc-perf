@@ -17,6 +17,7 @@ use std::{collections::HashMap, io::Read, time::Instant};
 mod codegen_schedule;
 pub mod crox;
 pub mod flamegraph;
+pub mod trace_packet;
 
 pub type ProcessorType = crate::api::self_profile_processed::ProcessorType;
 
@@ -34,6 +35,15 @@ pub fn generate(
     params: HashMap<String, String>,
 ) -> anyhow::Result<Output> {
     match processor_type {
+        ProcessorType::TracePacket => {
+            let opt = serde_json::from_str(&serde_json::to_string(&params).unwrap())
+                .context("trace_packet opts")?;
+            Ok(Output {
+                filename: "trace.bin",
+                data: trace_packet::generate(self_profile_data, opt).context("trace_packet")?,
+                is_download: true,
+            })
+        }
         ProcessorType::Crox => {
             let opt = serde_json::from_str(&serde_json::to_string(&params).unwrap())
                 .context("crox opts")?;

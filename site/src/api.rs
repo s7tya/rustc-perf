@@ -396,6 +396,8 @@ pub mod self_profile_processed {
         CodegenSchedule,
         Crox,
         Flamegraph,
+        #[serde(rename = "trace-packet")]
+        TracePacket,
     }
 
     #[derive(Debug, PartialEq, Clone, Serialize, Deserialize)]
